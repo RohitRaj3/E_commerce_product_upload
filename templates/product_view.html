@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <style>
+      body{
+          background-image: url('https://cdn.pixabay.com/photo/2017/03/19/03/40/avatar-2155431_1280.png');
+      }
+  </style>
+  
+    <title>Product_view</title>
+</head>
+<body>
+    <!-- As a link -->
+<nav class="navbar  navbar-dark bg-dark">
+    <div class="container-fluid m-1">
+      <a class="navbar-brand " href="/">Marlo Web-App</a>
+    </div>
+  </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-3">
+                <h2 class="text-white text-center bg-dark p-2"> Upload Your File</h2>
+                <br>
+                <form action="/insert" method="post"> 
+                    {% csrf_token %}
+                    <a href="{% url 'index' %}">Upload CSV</a>
+                    <div class="form-group m-1">
+                        <input type="text" class="form-control"placeholder="Enter Product name" name="name" required>
+                    </div>
+                    <div class="form-group m-1">
+                        <input type="text" class="form-control"placeholder="Enter Barcode" name="barcode" required>
+                    </div>
+                    <div class="form-group m-1">
+                        <input type="text" class="form-control"placeholder="Enter Brand Name" name="brand" required>
+                    </div>
+                    <div class="form-group m-1">
+                        <input type="text" class="form-control"placeholder="Enter Description" name="description" >
+                    </div>
+                    <div class="form-group m-1">
+                        <input type="text" class="form-control"placeholder="Enter Price" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" name="available" aria-label="Default select example">
+                            <option selected>Select Availability</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                          </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success m-1" type="submit">Submit</button>
+                    </div>  
+                                 
+                    </form>
+                    
+
+            </div>
+            <div class="col-9">
+                <h2 class="text-center text-white bg-dark p-2">Product Details</h2>
+                {%for message in messages %}
+                <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                    <strong>{{message}}</strong> 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  {% endfor %}
+                <table class="table m-2">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Barcode</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data %}
+                      <tr>
+                        <th scope="row">{{d.name}}</th>
+                        <td>{{d.barcode}}</td>
+                        <td>{{d.brand}}</td>
+                        <td>{{d.description}}</td>
+                        <td>{{d.price}}</td>
+                        <td>{{d.available}}</td>
+                        <td><a type="button" href="/update/{{d.id}}" class="btn btn-warning">Edit</a></td>
+                        <td><a type="button" href="/delete/{{d.id}}" class="btn btn-danger">Delete</a></td>
+                      </tr>
+                      {% endfor %}
+                     
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</body>
+</html>
